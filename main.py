@@ -206,22 +206,22 @@ class SOVAnalyzer:
             else: trend_direction = "Stable"
 
         final_prompt = f"""
-        You are an Executive Assistant explaining a marketing dashboard to a client.
+        You are a Senior AEO Analyst providing a strategic summary for the client "{self.product_name}".
         
-        **Your Goal:** Write a 2-sentence explanation of what these numbers *mean* for their business. 
-        
-        **The Data:**
-        - **Product:** "{self.product_name}"
-        - **Engine:** {self.engine.upper()}
-        - **Visibility Score:** {final_sov}/100 (Trend: {trend_direction})
-        - **Category Relevance:** {final_relevance}/100.
-        - **Trust (Citations):** {final_citation}%.
-        - **Key Context from Analysis:** {" ".join(batch_summaries)}
+        **Current Status:**
+        - Engine: {self.engine.upper()}
+        - Brand Visibility (SOV): {final_sov}/100 (Trend: {trend_direction})
+        - Category Opportunity (Relevance): {final_relevance}/100
+        - Citation Trust: {final_citation}%
         
         **Instructions:**
-        1. **Do NOT** just list the numbers (e.g., don't say "Your visibility is 0 and relevance is 86"). The user can already see the numbers.
-        2. **Explain the "Why":** If Relevance is high but Visibility is low, explain that the AI is actively discussing their solution category (MMP, etc.) but is completely ignoring their brand in favor of competitors.
-        3. **Tone:** Insightful, direct, and action-oriented.
+        1. **Do NOT output a list of stats.** Do NOT say "Visibility is X and Relevance is Y". The client can see the numbers.
+        2. **Explain the meaning.** Connect the dots between Visibility and Relevance.
+        3. **Specific Scenario Handling:**
+           - IF Visibility is LOW (<20) but Relevance is HIGH (>70): You MUST write: "The AI is actively discussing your exact solution category, but currently ignoring your brand in favor of competitors. This is a high-value missed opportunity."
+           - IF Visibility is HIGH: Focus on how dominant the brand is.
+        
+        **Format:** Write 2-3 clear, professional sentences explaining the situation.
         """
         
         try:
