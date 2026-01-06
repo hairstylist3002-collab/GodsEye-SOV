@@ -206,7 +206,8 @@ class SOVAnalyzer:
             else: trend_direction = "Stable"
 
         final_prompt = f"""
-        Write a 2-sentence Dashboard Summary for "{self.product_name}" on {self.engine.upper()}.
+        Write a in-detailed Dashboard Summary for "{self.product_name}" on {self.engine.upper()}. Not just using numbers but 
+        the explaination in words
         
         **Data Context:**
         - **Visibility (SOV):** {final_sov}/100 (Trend: {trend_direction})
