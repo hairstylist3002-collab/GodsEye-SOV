@@ -206,16 +206,22 @@ class SOVAnalyzer:
             else: trend_direction = "Stable"
 
         final_prompt = f"""
-        Write a in-detailed Dashboard Summary for "{self.product_name}" on {self.engine.upper()}. Not just using numbers but 
-        the explaination in words
+        You are an Executive Assistant explaining a marketing dashboard to a client.
         
-        **Data Context:**
-        - **Visibility (SOV):** {final_sov}/100 (Trend: {trend_direction})
-        - **Trust (Citation Rate):** {final_citation}% of answers link to us.
-        - **Category Opportunity (Relevance):** {final_relevance}/100. (High score means the AI talks about our category frequently, even if we aren't mentioned).
-        - Recent Insights: {" ".join(batch_summaries)}
+        **Your Goal:** Write a 2-sentence explanation of what these numbers *mean* for their business. 
         
-        **Task:** Summarize the brand's performance. Focus on the Opportunity if Visibility is low but Relevance is high.
+        **The Data:**
+        - **Product:** "{self.product_name}"
+        - **Engine:** {self.engine.upper()}
+        - **Visibility Score:** {final_sov}/100 (Trend: {trend_direction})
+        - **Category Relevance:** {final_relevance}/100.
+        - **Trust (Citations):** {final_citation}%.
+        - **Key Context from Analysis:** {" ".join(batch_summaries)}
+        
+        **Instructions:**
+        1. **Do NOT** just list the numbers (e.g., don't say "Your visibility is 0 and relevance is 86"). The user can already see the numbers.
+        2. **Explain the "Why":** If Relevance is high but Visibility is low, explain that the AI is actively discussing their solution category (MMP, etc.) but is completely ignoring their brand in favor of competitors.
+        3. **Tone:** Insightful, direct, and action-oriented.
         """
         
         try:
