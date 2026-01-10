@@ -7,6 +7,7 @@ import uuid
 from typing import Any, Dict, List, Optional
 
 import google.generativeai as genai
+from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from pydantic import BaseModel, Field
@@ -386,6 +387,16 @@ class SOVAnalyzer:
 
 # --- SERVERLESS HANDLER ---
 app = Flask(__name__)
+
+# Add this before the if __name__ == "__main__": block
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Lightweight endpoint to keep serverless container warm"""
+    return jsonify({
+        "status": "healthy",
+        "service": "GodsEye-SOV",
+        "timestamp": datetime.utcnow().isoformat()
+    }), 200
 
 @app.route('/analyze', methods=['POST'])
 def handle_analyze():
